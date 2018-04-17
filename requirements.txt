@@ -1,0 +1,13 @@
+backports-abc==0.5
+click==6.7
+Flask==0.12.2
+Flask-Script==2.0.6
+futures==3.2.0
+itsdangerous==0.24
+Jinja2==2.10
+MarkupSafe==1.0
+singledispatch==3.4.0.3
+six==1.11.0
+snakeviz==0.4.2
+tornado==5.0.2
+Werkzeug==0.14.1
