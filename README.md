@@ -10,4 +10,5 @@ To get started, simply:
 4) **term 2:** `curl localhost:5000`
 5) Kill the webapp started in step #3 (`[Cmd] + [C]` on OSX)
 6) **term 1:** `snakeviz perf_test/GET.*.prof`
-7) Browser should open, and you can view performance data in `snakeviz`  
+7) Browser should open, and you can view performance data in `snakeviz`  (example below)
+![snakeviz_example](https://user-images.githubusercontent.com/6374067/38844999-ae9c48e6-41aa-11e8-891d-109c3cfc2e10.png)
