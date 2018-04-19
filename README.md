@@ -12,3 +12,11 @@ To get started, simply:
 6) **term 1:** `snakeviz perf_test/GET.*.prof`
 7) Browser should open, and you can view performance data in `snakeviz`  (example below)
 ![snakeviz_example](https://user-images.githubusercontent.com/6374067/38844999-ae9c48e6-41aa-11e8-891d-109c3cfc2e10.png)
+
+
+## References
+### Profiling
+* [Werkzerg Application Profiler Documentation](http://werkzeug.pocoo.org/docs/0.14/contrib/profiler/)
+### Viewing
+* [Snakeviz](https://jiffyclub.github.io/snakeviz/)
+* [KCachegrind](https://kcachegrind.github.io/html/Home.html)
