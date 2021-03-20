@@ -1,0 +1,97 @@
+# This workflow will install Python dependencies, run linters and some tests
+
+name: Python CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Get pip cache dir
+        id: pip-cache
+        run: |
+          echo "::set-output name=dir::$(pip cache dir)"
+
+      - name: Cache pip
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.pip-cache.outputs.dir }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      # Install dependencies
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+  lint:
+    runs-on: ubuntu-latest
+
+    needs:
+      - build
+
+    steps:
+      - name: isort
+        run: |
+          # stop the build if there are impoorts that are unsorted
+          isort -c ./webapp.py
+
+      - name: blue
+        run: |
+          blue --check webapp.py
+
+      - name: flake8
+        run: |
+          # stop the build if there are Python syntax errors or undefined names
+          flake8 webapp.py --count --select=E9,F63,F7,F82 --show-source --statistics
+          # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+          flake8 webapp.py --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+      - name: pytest
+        run: |
+          pytest
+
+  test:
+    runs-on: ubuntu-latest
+
+    needs:
+      - build
+
+    steps:
+      - name: Run webapp
+        run: |
+          # We background this so we can run a curl command
+          python webapp.py runserver --debug &
+
+      - name: Wait 2 seconds
+        run: |
+          sleep 2
+
+      - name: curl endpoint
+        run: |
+          curl localhost:5000
+
+      - name: Test a *.perf file exists
+        run: |
+          if compgen -G "perf_test/GET.*.prof" > /dev/null ; then
+            echo 'Perf file exists! Success.'
+            exit 0;
+          else
+            echo 'Perf file *DOES NOT* exist! Failing.'
+            exit 1;
+          fi
