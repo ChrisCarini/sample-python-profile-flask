@@ -72,7 +72,7 @@ jobs:
       ###
       - name: isort
         run: |
-          # stop the build if there are impoorts that are unsorted
+          # stop the build if there are imports that are unsorted
           isort -c ./webapp.py
 
       - name: blue
