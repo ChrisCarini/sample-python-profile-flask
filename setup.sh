@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
-virtualenv prof_flask_app
+echo "Creating virtual environment..."
+python3 -m venv venv
 
-source prof_flask_app/bin/activate
+echo "Activate virtual environment..."
+source venv/bin/activate
 
+echo "Install dependencies from requirements.txt..."
 pip install -r requirements.txt

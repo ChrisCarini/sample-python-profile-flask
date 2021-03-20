@@ -3,24 +3,24 @@ from datetime import datetime
 
 from flask import Flask
 from flask_script import Manager
-from werkzeug.contrib.profiler import ProfilerMiddleware
+from werkzeug.middleware.profiler import ProfilerMiddleware
 
 # Create and configure the application instance
 app = Flask(__name__)
 
 # Let's add some profiling goodness
 app.config['PROFILE'] = True
-app.wsgi_app = ProfilerMiddleware(app.wsgi_app, profile_dir="./perf_test/")
+app.wsgi_app = ProfilerMiddleware(app.wsgi_app, profile_dir='./perf_test/')
 
 
 # Sample endpoint w/ some artificial latency added
 @app.route('/')
 def index():
     """ Just a test endpoint """
-    result = "{} - start\n".format(datetime.now())
+    result = '{} - start\n'.format(datetime.now())
     for x in range(1, 11):
-        result += "{} - {}^2 = {}\n".format(datetime.now(), x, get_pow_2(x))
-    result += "{} - end\n".format(datetime.now())
+        result += '{} - {}^2 = {}\n'.format(datetime.now(), x, get_pow_2(x))
+    result += '{} - end\n'.format(datetime.now())
     return result
 
 
