@@ -46,6 +46,30 @@ jobs:
       - build
 
     steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Get pip cache dir
+        id: pip-cache
+        run: |
+          echo "::set-output name=dir::$(pip cache dir)"
+
+      - name: Cache pip
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.pip-cache.outputs.dir }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      ###
+      # RUN THE LINTING!!!
+      ###
       - name: isort
         run: |
           # stop the build if there are impoorts that are unsorted
@@ -73,14 +97,38 @@ jobs:
       - build
 
     steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Get pip cache dir
+        id: pip-cache
+        run: |
+          echo "::set-output name=dir::$(pip cache dir)"
+
+      - name: Cache pip
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.pip-cache.outputs.dir }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      ###
+      # RUN THE TEST!!!
+      ###
       - name: Run webapp
         run: |
           # We background this so we can run a curl command
           python webapp.py runserver --debug &
 
-      - name: Wait 2 seconds
+      - name: Wait 1 second
         run: |
-          sleep 2
+          sleep 1
 
       - name: curl endpoint
         run: |
