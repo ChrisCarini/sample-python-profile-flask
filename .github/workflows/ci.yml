@@ -197,7 +197,7 @@ jobs:
       - name: Run webapp
         run: |
           # We background this so we can run a curl command
-          python webapp.py runserver --debug &
+          flask --app webapp --debug run &
 
       - name: Wait 1 second
         run: |
