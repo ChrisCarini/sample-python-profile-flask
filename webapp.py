@@ -2,7 +2,6 @@ import time
 from datetime import datetime
 
 from flask import Flask
-from flask_script import Manager
 from werkzeug.middleware.profiler import ProfilerMiddleware
 
 # Create and configure the application instance
@@ -36,9 +35,3 @@ def pow_wrapper(num, power):
     """ Artificially slow down pow() """
     time.sleep(0.2)
     return pow(num, power)
-
-
-manager = Manager(app)
-
-if __name__ == '__main__':
-    manager.run()
